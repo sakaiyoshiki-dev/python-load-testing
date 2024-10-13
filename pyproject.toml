@@ -10,6 +10,7 @@ dependencies = [
   "numba",
   "scipy",  # scipyを明示的に導入しないと numbaでdotが使えない
   "jax",
+  "matplotlib",
 ]
 
 [project.optional-dependencies]

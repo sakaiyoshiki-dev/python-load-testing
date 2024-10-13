@@ -2,6 +2,16 @@ from typing import Callable
 import numpy as np
 from numba import njit
 import time
+import jax
+import jax.numpy as jnp
+
+
+def repeat_matrix_sum_jax(matrix: np.ndarray, n_repeat: int):
+    matrix_jax = jnp.array(matrix)
+    m = matrix
+    for n in range(n_repeat):
+        m += matrix
+    return m
 
 
 @njit(cache=True)
