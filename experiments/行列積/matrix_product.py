@@ -7,8 +7,23 @@ import jax.numpy as jnp
 from functools import partial
 
 
+@jax.jit
+def matmul_jax2(matrix1: jnp.ndarray, matrix2: jnp.ndarray) -> jnp.ndarray:
+    return matrix1.dot(matrix2)
+
+
+def repeat_matrix_products_jaxjitted2(matrix: np.ndarray, n_repeat: int) -> np.ndarray:
+    matrix_jax = jnp.array(matrix)
+    m = matrix_jax
+    for n in range(n_repeat):
+        m = matmul_jax2(m, matrix_jax)
+        m.block_until_ready()
+    return m
+
+
 @partial(jax.jit, static_argnums=1)
 def matmul_jax(matrix: jnp.ndarray, n_repeat: int) -> jnp.ndarray:
+    # これではメモリ不足になる
     m = matrix
     for n in range(n_repeat):
         m = m.dot(matrix)
