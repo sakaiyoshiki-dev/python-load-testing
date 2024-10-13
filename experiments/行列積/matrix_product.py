@@ -2,6 +2,33 @@ from typing import Callable
 import numpy as np
 from numba import njit
 import time
+import jax
+import jax.numpy as jnp
+from functools import partial
+
+
+@partial(jax.jit, static_argnums=1)
+def matmul_jax(matrix: jnp.ndarray, n_repeat: int) -> jnp.ndarray:
+    m = matrix
+    for n in range(n_repeat):
+        m = m.dot(matrix)
+    return m
+
+
+def repeat_matrix_products_jaxjitted(matrix: np.ndarray, n_repeat: int) -> np.ndarray:
+    matrix_jax = jnp.array(matrix)
+    ret = matmul_jax(matrix_jax, n_repeat)
+    ret.block_until_ready()
+    return ret
+
+
+def repeat_matrix_products_jax(matrix: np.ndarray, n_repeat: int) -> np.ndarray:
+    matrix_jax = jnp.array(matrix)
+    m = matrix_jax
+    for n in range(n_repeat):
+        m = m.dot(matrix_jax)
+    m.block_until_ready()
+    return m
 
 
 @njit(cache=True)
