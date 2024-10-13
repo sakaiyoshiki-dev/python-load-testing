@@ -1,0 +1,22 @@
+[project]
+name = "python-load-testing"
+version = "0.1.0"
+description = "Pythonの負荷試験と高速化を試すためのリポジトリ e.g., numba, JAX, cupy..."
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+  "numpy",
+  "numba",
+  "scipy",  # scipyを明示的に導入しないと numbaでdotが使えない
+]
+
+[project.optional-dependencies]
+dev = ["jupyter", "black[jupyter]"]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[build-system]
+requires = ["setuptools"]  # REQUIRED if [build-system] table is used
+build-backend = "setuptools.build_meta"  # If not defined, then legacy behavior can happen.
