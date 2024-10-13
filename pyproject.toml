@@ -9,7 +9,7 @@ dependencies = [
   "numpy",
   "numba",
   "scipy",  # scipyを明示的に導入しないと numbaでdotが使えない
-  "jax",
+  "jax[cuda]",
   "matplotlib",
 ]
 
